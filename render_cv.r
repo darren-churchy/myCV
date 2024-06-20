@@ -1,30 +1,4 @@
 
-options(gargle_oauth_email = TRUE)
-
-# datadrivencv::use_datadriven_cv(full_name = "Darren Churchward",
-#                                 data_location = "https://docs.google.com/spreadsheets/d/1vULaA1GDD6L3Lq6BbGAxXeYUPhiEg-ew-PZY8VEp0UI/edit?usp=sharing")
-
-
-googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1vULaA1GDD6L3Lq6BbGAxXeYUPhiEg-ew-PZY8VEp0UI/edit?usp=sharing",
-                          sheet = "language_skills",
-                          skip = 1)
-
-
-googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1vULaA1GDD6L3Lq6BbGAxXeYUPhiEg-ew-PZY8VEp0UI/edit?usp=sharing",
-                          sheet = "entries",
-                          skip = 1)
-
-
-googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1vULaA1GDD6L3Lq6BbGAxXeYUPhiEg-ew-PZY8VEp0UI/edit?usp=sharing",
-                          sheet = "text_blocks",
-                          skip = 1)
-
-
-googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1vULaA1GDD6L3Lq6BbGAxXeYUPhiEg-ew-PZY8VEp0UI/edit?usp=sharing",
-                          sheet = "contact_info",
-                          skip = 1)
-
-
 # This script builds both the HTML and PDF versions of your CV
 
 # If you wanted to speed up rendering for googlesheets driven CVs you could use
@@ -35,7 +9,7 @@ googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1vULaA1GDD6L3L
 # Knit the HTML version
 rmarkdown::render("cv.rmd",
                   params = list(pdf_mode = FALSE),
-                  output_file = "darren-churchward_cv.html")
+                  output_file = "index.html")
 
 # Knit the PDF version to temporary html location
 tmp_html_cv_loc <- fs::file_temp(ext = ".html")
