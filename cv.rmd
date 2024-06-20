@@ -1,0 +1,158 @@
+---
+title: "Darren Churchward's CV"
+author: Darren Churchward
+date: "`r Sys.Date()`"
+params:
+  pdf_mode:
+    value: true
+output:
+  pagedown::html_resume:
+    css: ['dd_cv.css', 'resume']
+    self_contained: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  results='asis', 
+  echo = FALSE
+)
+
+library(magrittr) # For the pipe
+source("cv_printing_functions.r")
+
+# Read in all data and initialize a CV printer object
+CV <- create_CV_object(
+  data_location = "https://docs.google.com/spreadsheets/d/1vULaA1GDD6L3Lq6BbGAxXeYUPhiEg-ew-PZY8VEp0UI/edit?usp=sharing",  
+  pdf_mode = params$pdf_mode,
+  sheet_is_publicly_readable = FALSE
+)
+
+```
+
+
+```{r}
+# When in pdf export mode the little dots are unaligned, so fix that with some conditional CSS.
+if(params$pdf_mode) {
+    cat("
+<style>
+:root{
+  --decorator-outer-offset-left: -6.5px;
+}
+</style>")
+}
+```
+
+
+Aside
+================================================================================
+
+```{r}
+# Build interactive network of positions colored by section
+# and connected if they occurred in the same year
+datadrivencv::build_network_logo(CV$entries_data)
+```
+
+
+```{r}
+if(params$pdf_mode){
+  cat("View this CV online with links at _nickstrayer.me/datadrivencv/_")
+} else {
+  cat("[<i class='fas fa-download'></i> Download a PDF of this CV](https://github.com/nstrayer/cv/raw/master/strayer_cv.pdf)")
+}
+```
+
+Contact {#contact}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %>% print_contact_info()
+```
+
+
+Language Skills {#skills}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %>% print_skill_bars()
+```
+
+
+
+Disclaimer {#disclaimer}
+--------------------------------------------------------------------------------
+
+Made with the R package [**pagedown**](https://github.com/rstudio/pagedown). 
+
+The source code is available [on github.com/nstrayer/cv](https://github.com/nstrayer/datadrivencv).
+
+Last updated on `r Sys.Date()`.
+
+
+
+Main
+================================================================================
+
+Darren Churchward {#title}
+--------------------------------------------------------------------------------
+
+```{r}
+# Note the special double pipe so we modify the CV object in place
+CV %<>% print_text_block("intro") 
+```
+
+
+
+Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('education')
+```
+
+
+Training and Other Qualifications {data-icon=pencil-square-o}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('training')
+```
+
+
+Employment History {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+::: aside
+```{r}
+CV %<>% print_text_block('industy_experience_aside')
+```
+:::
+
+```{r}
+CV %<>% print_section('industry_positions')
+```
+
+<!-- These breaks just force a new page so section doesnt get cut off -->
+<br>
+<br>
+<br>
+
+Publications {data-icon=book}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('academic_articles')
+```
+
+Selected Posters, and Talks {data-icon=bar-chart}
+--------------------------------------------------------------------------------
+
+```{r}
+CV %<>% print_section('presentations')
+```
+
+
+
+```{r}
+CV %<>% print_links()
+```
+
